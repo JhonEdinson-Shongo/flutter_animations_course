@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:designs_1/src/themes/app_theme.dart';
 
 class HomePage
  extends StatelessWidget {
@@ -10,16 +9,23 @@ class HomePage
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page', style: TextStyle(color: AppTheme.white)),
+        title: const Text('Home Page'),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             ListTile(
-                title: const Text('Headers'),
-                trailing: const  Icon(Icons.arrow_forward_ios),
-                onTap: () => Navigator.pushNamed(context, 'HeadersPage'),
-              ),
+              title: const Text('Headers Custonpainter'),
+              trailing: const  Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.format_shapes_outlined),
+              onTap: () => Navigator.pushNamed(context, 'HeadersPage'),
+            ),
+            ListTile(
+              title: const Text('Animations'),
+              trailing: const  Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.animation_outlined),
+              onTap: () => Navigator.pushNamed(context, 'AnimationsPage'),
+            ),
           ],
         )
       )

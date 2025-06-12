@@ -7,9 +7,11 @@ class AppRoutes {
   static Map<String, Widget Function(BuildContext)> getAppRoutes() {
     Map<String, Widget Function(BuildContext)> appRoutes = {};
     appRoutes.addAll(
+        {'Home': (BuildContext context) => const HomePage()});
+    appRoutes.addAll(
         {'HeadersPage': (BuildContext context) => const HeadersPage()});
     appRoutes.addAll(
-        {'Home': (BuildContext context) => const HomePage()});
+        {'AnimationsPage': (BuildContext context) => const AnimationsPage()});
 
     return appRoutes;
   }

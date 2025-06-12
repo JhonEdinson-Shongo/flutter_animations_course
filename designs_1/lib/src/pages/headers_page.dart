@@ -6,8 +6,12 @@ class HeadersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: SingleChildScrollView(
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Headers'),
+        centerTitle: true,
+      ),
+      body: const SingleChildScrollView(
         child: Column(
           children: [
             HeaderRounded(),
@@ -20,6 +24,8 @@ class HeadersPage extends StatelessWidget {
             SizedBox(height: 40),
             HeaderWave(),
             SizedBox(height: 40),
+            HeaderWaveGradient(),
+            SizedBox(height: 1000),
           ],
         ),
       ),

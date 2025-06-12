@@ -131,7 +131,7 @@ class HeaderWave extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 400,
+      height: 350,
       width: double.infinity,
       child: CustomPaint(
         painter: _HeaderWavePainter(),
@@ -151,6 +151,55 @@ class _HeaderWavePainter extends CustomPainter {
       ..lineTo(0, size.height * 0.8)
       ..quadraticBezierTo(size.width * 0.25, size.height, size.width * 0.5, size.height * 0.8)
       ..quadraticBezierTo(size.width * 0.75, size.height * 0.6, size.width, size.height * 0.8)
+      ..lineTo(size.width, 0)
+      ..close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+}
+
+class HeaderWaveGradient extends StatelessWidget {
+  const HeaderWaveGradient({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _HeaderWaveGradientPainter(),
+      ),
+    );
+  }
+}
+
+class _HeaderWaveGradientPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Rect.fromCircle(center: Offset(size.width / 2, size.height / 2), radius: 150.0);
+
+    final Gradient gradient = LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        AppTheme.primary,
+        AppTheme.primary.withOpacity(0.75),
+        AppTheme.primary.withOpacity(0.2),
+      ],
+      stops: const [0.0, 0.5, 1.0],
+    );
+
+    final paint = Paint()
+      ..shader = gradient.createShader(rect)
+      ..style = PaintingStyle.fill;
+
+    final path = Path()
+      ..lineTo(0, size.height * 0.85)
+      ..quadraticBezierTo(size.width * 0.25, size.height, size.width * 0.5, size.height * 0.85)
+      ..quadraticBezierTo(size.width * 0.75, size.height * 0.7, size.width, size.height * 0.85)
       ..lineTo(size.width, 0)
       ..close();
 

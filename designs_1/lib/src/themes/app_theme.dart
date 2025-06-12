@@ -15,6 +15,12 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       color: primary,
       elevation: 0,
+      iconTheme: IconThemeData(color: white),
+      titleTextStyle: TextStyle(
+        color: white,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
     ),
     textTheme: ThemeData().textTheme.apply(bodyColor: colorText, fontFamily: 'Poppins', fontSizeFactor: fontSizeFactor),
     scaffoldBackgroundColor: white,
