@@ -12,6 +12,8 @@ class AppRoutes {
         {'HeadersPage': (BuildContext context) => const HeadersPage()});
     appRoutes.addAll(
         {'AnimationsPage': (BuildContext context) => const AnimationsPage()});
+    appRoutes.addAll(
+        {'CustomProgressPage': (BuildContext context) => const CustomProgressPage()});
 
     return appRoutes;
   }

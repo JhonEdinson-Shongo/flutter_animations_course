@@ -26,6 +26,12 @@ class HomePage
               leading: const Icon(Icons.animation_outlined),
               onTap: () => Navigator.pushNamed(context, 'AnimationsPage'),
             ),
+            ListTile(
+              title: const Text('Custom Progress'),
+              trailing: const  Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.refresh_rounded),
+              onTap: () => Navigator.pushNamed(context, 'CustomProgressPage'),
+            ),
           ],
         )
       )
