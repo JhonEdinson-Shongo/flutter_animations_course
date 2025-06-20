@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:designs_1/src/themes/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -10,9 +11,32 @@ class CustomProgressPage extends StatefulWidget {
   State<CustomProgressPage> createState() => _CustomProgressPageState();
 }
 
-class _CustomProgressPageState extends State<CustomProgressPage> {
+class _CustomProgressPageState extends State<CustomProgressPage>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  double progress = 0.0;
+  double newProgress = 0.0;
+  double increment = 0.1;
 
-  double progress = 0.1;
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _controller?.addListener(() {
+      setState(() {
+        progress = lerpDouble(progress, newProgress, _controller!.value)!;
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +76,14 @@ class _CustomProgressPageState extends State<CustomProgressPage> {
             child: const Icon(Icons.arrow_circle_up_sharp),
             onPressed: () {
               setState(() {
-                progress += 0.1;
-                if (progress > 1.0) {
-                  progress = 0.1;
+                progress = newProgress;
+                increment = increment.abs();
+                newProgress += increment;
+                if (newProgress >= 1.0) {
+                  newProgress = increment;
+                  progress = 0.0;
                 }
+                _controller?.forward(from: 0.0);
               });
             },
           ),
@@ -65,6 +93,7 @@ class _CustomProgressPageState extends State<CustomProgressPage> {
             onPressed: () {
               setState(() {
                 progress = 0.0;
+                newProgress = 0.0;
               });
             },
           ),
@@ -73,14 +102,19 @@ class _CustomProgressPageState extends State<CustomProgressPage> {
             child: const Icon(Icons.arrow_circle_down_sharp),
             onPressed: () {
               setState(() {
-                progress -= 0.1;
-                if (progress < 0.0) {
+                progress = newProgress;
+                increment = increment.abs()  -1;
+                newProgress += increment;
+                if (newProgress <= 0.0) {
+                  newProgress = 0.0;
                   progress = 0.0;
                 }
+                _controller?.forward(from: 0.0);
               });
             },
           ),
-        ]),
+        ],
+      ),
     );
   }
 }
