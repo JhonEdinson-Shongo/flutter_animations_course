@@ -1,7 +1,7 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:designs_1/src/themes/app_theme.dart';
+import 'package:designs_1/src/widgets/radial_progress.dart';
 import 'package:flutter/material.dart';
 
 class CustomProgressPage extends StatefulWidget {
@@ -14,19 +14,39 @@ class CustomProgressPage extends StatefulWidget {
 class _CustomProgressPageState extends State<CustomProgressPage>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
+  Animation<double>? _animationProgress;
   double progress = 0.0;
-  double newProgress = 0.0;
+  double tempProgress = 0.0;
   double increment = 0.1;
+  bool isLoading = false;
 
   @override
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 1000),
     );
+
+    _animationProgress = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller!,
+        curve: Curves.easeInOutBack,
+      ),
+    );
+
     _controller?.addListener(() {
       setState(() {
-        progress = lerpDouble(progress, newProgress, _controller!.value)!;
+        isLoading = true;
+        progress = tempProgress + (_animationProgress!.value * increment);
+      });
+    });
+
+    _controller?.addStatusListener((status) {
+      setState(() {
+        if (status == AnimationStatus.completed) {
+          isLoading = false;
+          increment = 0.1;
+        }
       });
     });
     super.initState();
@@ -46,27 +66,34 @@ class _CustomProgressPageState extends State<CustomProgressPage>
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Text('Circular Progress por defecto',
-                style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 20.0),
-            const Center(
-              child: CircularProgressIndicator(),
-            ),
-            const SizedBox(height: 20.0),
-            Text('Circular Progress custom',
-                style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 20.0),
-            Container(
-              width: 300.0,
-              height: 300.0,
-              color: AppTheme.black.withOpacity(0.03),
-              child: CustomPaint(
-                painter: _CustomRadialProgress(progress, strokeWidth: 10.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text('Circular Progress por defecto',
+                  style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 20.0),
+              const Center(
+                child: CircularProgressIndicator(),
               ),
-            ),
-          ],
+              const SizedBox(height: 20.0),
+              Text('Circular Progress custom',
+                  style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 20.0),
+              Container(
+                width: 200.0,
+                height: 200.0,
+                color: AppTheme.black.withOpacity(0.03),
+                child: CustomPaint(
+                  painter: _CustomRadialProgress(progress, strokeWidth: 10.0),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              Text('Circular Progress custom',
+                  style: Theme.of(context).textTheme.titleLarge),
+              const SizedBox(height: 20.0),
+              RadialProgress(progress: progress),
+            ],
+          ),
         ),
       ),
       floatingActionButton: Column(
@@ -75,12 +102,11 @@ class _CustomProgressPageState extends State<CustomProgressPage>
           FloatingActionButton(
             child: const Icon(Icons.arrow_circle_up_sharp),
             onPressed: () {
+              if (isLoading) return;
               setState(() {
-                progress = newProgress;
-                increment = increment.abs();
-                newProgress += increment;
-                if (newProgress >= 1.0) {
-                  newProgress = increment;
+                tempProgress = progress;
+                if (tempProgress >= 1.0) {
+                  tempProgress = 0.0;
                   progress = 0.0;
                 }
                 _controller?.forward(from: 0.0);
@@ -91,22 +117,24 @@ class _CustomProgressPageState extends State<CustomProgressPage>
           FloatingActionButton(
             child: const Icon(Icons.restart_alt),
             onPressed: () {
+              if (isLoading) return;
+              tempProgress = progress;
               setState(() {
-                progress = 0.0;
-                newProgress = 0.0;
+                increment = -progress;
               });
+              _controller?.forward(from: 0.0);
             },
           ),
           const SizedBox(height: 10.0),
           FloatingActionButton(
             child: const Icon(Icons.arrow_circle_down_sharp),
             onPressed: () {
+              if (isLoading || progress == 0.0) return;
               setState(() {
-                progress = newProgress;
-                increment = increment.abs()  -1;
-                newProgress += increment;
-                if (newProgress <= 0.0) {
-                  newProgress = 0.0;
+                tempProgress = progress;
+                increment = increment.abs() * -1;
+                if (tempProgress <= 0.0) {
+                  tempProgress = 0.0;
                   progress = 0.0;
                 }
                 _controller?.forward(from: 0.0);
