@@ -32,6 +32,12 @@ class HomePage
               leading: const Icon(Icons.refresh_rounded),
               onTap: () => Navigator.pushNamed(context, 'CustomProgressPage'),
             ),
+            ListTile(
+              title: const Text('SlideShow'),
+              trailing: const  Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.slideshow),
+              onTap: () => Navigator.pushNamed(context, 'SlideShowPage'),
+            ),
           ],
         )
       )
