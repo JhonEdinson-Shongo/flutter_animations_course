@@ -105,15 +105,16 @@ class _CustomProgressPageState extends State<CustomProgressPage>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
+            heroTag: 'btn1',
             child: const Icon(Icons.arrow_circle_up_sharp),
             onPressed: () => setState(() {
-              print(progress);
               if (progress >= 0.99) return;
               progress += 0.1;
             }),
           ),
           const SizedBox(height: 10.0),
           FloatingActionButton(
+            heroTag: 'btn2',
             child: const Icon(Icons.restart_alt),
             onPressed: () => setState(() {
               progress = 0.0;
@@ -121,6 +122,7 @@ class _CustomProgressPageState extends State<CustomProgressPage>
           ),
           const SizedBox(height: 10.0),
           FloatingActionButton(
+            heroTag: 'btn3',
             child: const Icon(Icons.arrow_circle_down_sharp),
             onPressed: () => setState(() {
               if (progress <= 0.0) return;

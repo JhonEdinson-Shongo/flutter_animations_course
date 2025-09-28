@@ -1,14 +1,58 @@
-import 'package:designs_1/src/models/slider_model.dart';
+import 'package:designs_1/src/themes/app_theme.dart';
+import 'package:designs_1/src/widgets/slider_show.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class SlideShowPage extends StatelessWidget {
-  final List<Widget> slides;
-
+class SlideShowPage extends StatefulWidget {
   const SlideShowPage({
     super.key,
-    required this.slides,
   });
+
+  @override
+  State<SlideShowPage> createState() => _SlideShowPageState();
+}
+
+class _SlideShowPageState extends State<SlideShowPage> {
+  DotPosition dotPosition = DotPosition.bottom;
+  double bulletSize = 15;
+  Axis directionSlides = Axis.horizontal;
+
+  ButtonStyle _buttonStyle(DotPosition dotPositionButton) {
+    return TextButton.styleFrom(
+      foregroundColor:
+          dotPosition == dotPositionButton ? AppTheme.primary : Colors.black,
+      backgroundColor: dotPosition == dotPositionButton
+          ? AppTheme.primary.withOpacity(0.1)
+          : Colors.transparent,
+      shape: const StadiumBorder(),
+      side: BorderSide(
+        color:
+            dotPosition == dotPositionButton ? AppTheme.primary : Colors.black,
+        width: 1.0,
+      ),
+    );
+  }
+
+  ButtonStyle _buttonStyleDirection(Axis direction) {
+    return TextButton.styleFrom(
+      foregroundColor:
+          directionSlides == direction ? AppTheme.primary : Colors.black,
+      backgroundColor: directionSlides == direction
+          ? AppTheme.primary.withOpacity(0.1)
+          : Colors.transparent,
+      shape: const StadiumBorder(),
+      side: BorderSide(
+        color:
+            directionSlides == direction ? AppTheme.primary : Colors.black,
+        width: 1.0,
+      ),
+    );
+  }
+
+  void changeDotPosition(DotPosition dotPositionButton) {
+    setState(() {
+      dotPosition = dotPositionButton;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,166 +60,115 @@ class SlideShowPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('SlideShow Page'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: _Slides(slides),
-          ),
-          _Dots(this.slides.length),
-        ],
-      ),
-    );
-  }
-}
-
-class _Slides extends StatefulWidget {
-  final List<Widget> slides;
-
-  const _Slides(this.slides);
-
-  @override
-  State<_Slides> createState() => _SlidesState();
-}
-
-class _SlidesState extends State<_Slides> {
-  final PageController _pageController = PageController(
-    initialPage: 0,
-    keepPage: true,
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      Provider.of<SliderModel>(context, listen: false).currentPage =
-          _pageController.page ?? 0.0;
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _pageController.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: PageView(
-        controller: _pageController,
-        children: widget.slides
-            .map(
-              (widget) => _Slide(slide: widget),
-            )
-            .toList(),
-      ),
-    );
-  }
-}
-
-class _Slide extends StatelessWidget {
-  final Widget slide;
-  const _Slide({required this.slide});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: double.infinity,
-      padding: const EdgeInsets.all(20.0),
-      child: slide,
-    );
-  }
-}
-
-class _Dots extends StatelessWidget {
-  final int totalDots;
-
-  const _Dots(this.totalDots);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 70.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-          totalDots,
-          (index) => _Dot(index: index, totalDots: totalDots - 1),
-        ),
-      ),
-    );
-  }
-}
-
-class _Dot extends StatelessWidget {
-  final int index;
-  final int totalDots;
-  const _Dot({required this.index, required this.totalDots});
-
-  @override
-  Widget build(BuildContext context) {
-    final currentPage = Provider.of<SliderModel>(context).currentPage;
-    final isCurrentPage =
-        (currentPage >= index - 0.5 && currentPage < index + 0.5);
-    final isNextPage =
-        (currentPage >= index + 0.51 && currentPage < index + 1.51);
-    final isBeforePage =
-        (currentPage <= index - 0.51 && currentPage > index - 1.51);
-    return InkWell(
-      onTap: () {
-        Provider.of<SliderModel>(context, listen: false).currentPage =
-            index.toDouble();
-      },
-      splashColor: Colors.transparent,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-        width: isCurrentPage ? 12.0 : 22.0,
-        height: 12.0,
-        margin: EdgeInsets.all(isCurrentPage ? 3.0 : 0.0),
-        decoration: BoxDecoration(
-          color: isCurrentPage ? Colors.blue : Colors.grey,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(
-              isCurrentPage || index == 0
-                  ? 12.0
-                  : isBeforePage
-                      ? 12.0
-                      : 0.0,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: MediaQuery.of(context).size.height * 0.5,
+              child: SlideShow(
+                slides: [
+                  Container(color: Colors.red, child: const Text('Testing')),
+                  Container(color: Colors.brown, child: const Text('Testing')),
+                  Container(color: Colors.teal, child: const Text('Testing')),
+                  Container(
+                      color: Colors.greenAccent, child: const Text('Testing')),
+                  Container(color: Colors.purple, child: const Text('Testing')),
+                  Container(color: Colors.amber, child: const Text('Testing')),
+                  Container(
+                      color: Colors.blueGrey, child: const Text('Testing')),
+                  Container(color: Colors.blue, child: const Text('Testing')),
+                ],
+                positionDots: dotPosition,
+                bulletSize: bulletSize,
+                bulletColorActive: AppTheme.primary,
+                bulletColorInactive: Colors.black54,
+                directionSlides: directionSlides,
+              ),
             ),
-            topRight: Radius.circular(
-              isCurrentPage || index == totalDots
-                  ? 12.0
-                  : isNextPage
-                      ? 12.0
-                      : 0.0,
+            const SizedBox(height: 20),
+            const Text('Dots position:'),
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  TextButton(
+                    style: _buttonStyle(DotPosition.top),
+                    onPressed: () => changeDotPosition(DotPosition.top),
+                    child: const Text('Top'),
+                  ),
+                  TextButton(
+                    style: _buttonStyle(DotPosition.bottom),
+                    onPressed: () => changeDotPosition(DotPosition.bottom),
+                    child: const Text('Bottom'),
+                  ),
+                  TextButton(
+                    style: _buttonStyle(DotPosition.left),
+                    onPressed: () => changeDotPosition(DotPosition.left),
+                    child: const Text('Left'),
+                  ),
+                  TextButton(
+                    style: _buttonStyle(DotPosition.right),
+                    onPressed: () => changeDotPosition(DotPosition.right),
+                    child: const Text('Right'),
+                  ),
+                ],
+              ),
             ),
-            bottomLeft: Radius.circular(
-              isCurrentPage || index == 0
-                  ? 12.0
-                  : isBeforePage
-                      ? 12.0
-                      : 0.0,
+            const Divider(
+              height: 30,
             ),
-            bottomRight: Radius.circular(
-              isCurrentPage || index == totalDots
-                  ? 12.0
-                  : isNextPage
-                      ? 12.0
-                      : 0.0,
+            Text.rich(
+              TextSpan(
+                text: 'Bullet size: ',
+                children: [
+                  TextSpan(
+                    text: '${bulletSize.toInt()}',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.primary,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-        child: Center(
-          child: Text(
-            '$index',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 8.0,
+            Slider(
+              value: bulletSize,
+              min: 10,
+              max: 30,
+              onChanged: (value) {
+                setState(() {
+                  bulletSize = value;
+                });
+              },
             ),
-          ),
+            const Divider(
+              height: 30,
+            ),
+            const Text('Direction slides:'),
+            const SizedBox(height: 10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextButton(
+                  style: _buttonStyleDirection(Axis.horizontal),
+                  onPressed: () => setState(() => directionSlides = Axis.horizontal),
+                  child: const Text('Horizontal'),
+                ),
+                const SizedBox(width: 10),
+                TextButton(
+                  style: _buttonStyleDirection(Axis.vertical),
+                  onPressed: () => setState(() => directionSlides = Axis.vertical),
+                  child: const Text('Vertical'),
+                ),
+              ],
+            ),
+            const Divider(
+              height: 30,
+            ),
+          ],
         ),
       ),
     );
