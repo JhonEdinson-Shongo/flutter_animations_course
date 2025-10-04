@@ -16,6 +16,8 @@ class AppRoutes {
         {'CustomProgressPage': (BuildContext context) => const CustomProgressPage()});
     appRoutes.addAll(
         {'SlideShowPage': (BuildContext context) => const SlideShowPage()});
+    appRoutes.addAll(
+        {'PinterestGridPage': (BuildContext context) => PinterestGridPage()});
 
     return appRoutes;
   }

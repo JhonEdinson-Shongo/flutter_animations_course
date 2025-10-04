@@ -1,3 +1,4 @@
+import 'package:designs_1/src/models/pinterest_model.dart';
 import 'package:designs_1/src/models/slider_model.dart';
 import 'package:flutter/material.dart';
 import 'package:designs_1/src/router/app_routes.dart';
@@ -9,6 +10,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SliderModel()),
+        ChangeNotifierProvider(create: (context) => PinterestModel()),
       ],
       child: const MainApp(),
     ),

@@ -38,6 +38,12 @@ class HomePage
               leading: const Icon(Icons.slideshow),
               onTap: () => Navigator.pushNamed(context, 'SlideShowPage'),
             ),
+            ListTile(
+              title: const Text('Pinterest Grid'),
+              trailing: const  Icon(Icons.arrow_forward_ios),
+              leading: const Icon(Icons.grid_view),
+              onTap: () => Navigator.pushNamed(context, 'PinterestGridPage'),
+            ),
           ],
         )
       )
