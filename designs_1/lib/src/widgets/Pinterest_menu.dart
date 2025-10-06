@@ -5,32 +5,93 @@ import 'package:provider/provider.dart';
 class PinterestButton {
   final Function onPressed;
   final IconData icon;
-  PinterestButton({required this.onPressed, required this.icon});
+  final String label;
+  final Color activeColor;
+  final Color inactiveColor;
+  final Color backgroundColor;
+  PinterestButton({
+    this.label = '',
+    this.activeColor = const Color(0xFF2196F3),
+    this.inactiveColor = const Color(0xFF37474F),
+    this.backgroundColor = Colors.transparent,
+    required this.onPressed,
+    required this.icon,
+  });
 }
 
-class PinterestMenu extends StatelessWidget {
+class PinterestMenu extends StatefulWidget {
   final List<PinterestButton> items;
+  final Color backgroundColor;
   final Widget child;
-  const PinterestMenu({super.key, required this.child, required this.items});
+  const PinterestMenu({
+    super.key,
+    required this.child,
+    required this.items,
+    this.backgroundColor = const Color(0xFFFFFFFF),
+  });
+
+  @override
+  State<PinterestMenu> createState() => _PinterestMenuState();
+}
+
+class _PinterestMenuState extends State<PinterestMenu>
+    with TickerProviderStateMixin {
+  AnimationController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
 
   double calcaulatePosition(BuildContext context) {
     // Se crea esta función para calcular la posición del menu, ya que se desea que se pueda
     // dar click a los costados del menu sin importar el número de items
     double middleWidth = MediaQuery.of(context).size.width / 2;
-    double middleWidthItems = ((items.length * 51) / 2);
+    double middleWidthItems = ((widget.items.length * 51) / 2);
     double middleWidthBackground = 10;
     return middleWidth - middleWidthItems - middleWidthBackground;
   }
 
   @override
   Widget build(BuildContext context) {
+    bool showMenu = Provider.of<PinterestModel>(context).showMenu;
+    if (showMenu) {
+      _controller!.reverse();
+    } else {
+      _controller!.forward();
+    }
     return Stack(
       children: [
-        child,
+        widget.child,
         Positioned(
           bottom: 20,
           left: calcaulatePosition(context),
-          child: _PinterestMenuBackground(items: items),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 150),
+            opacity: showMenu ? 1 : 0,
+            child: AnimatedBuilder(
+              animation: _controller!,
+              builder: (context, child) => Transform.translate(
+                offset: Offset(
+                  0,
+                  _controller!.value * (25 + 16 + 20 + 20),
+                ),
+                child: child,
+              ),
+              child: _PinterestMenuBackground(
+                  items: widget.items, backgroundColor: widget.backgroundColor),
+            ),
+          ),
         ),
       ],
     );
@@ -39,9 +100,11 @@ class PinterestMenu extends StatelessWidget {
 
 class _PinterestMenuBackground extends StatelessWidget {
   final List<PinterestButton> items;
+  final Color backgroundColor;
   const _PinterestMenuBackground({
     super.key,
     required this.items,
+    this.backgroundColor = const Color(0xFFFFFFFF),
   });
 
   @override
@@ -52,7 +115,7 @@ class _PinterestMenuBackground extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(100),
         boxShadow: const [
           BoxShadow(
@@ -127,17 +190,9 @@ class _PinterestMenuButtonState extends State<_PinterestMenuButton>
     return Container(
       margin: const EdgeInsets.only(left: 5, right: 5),
       decoration: isCurentItem
-          ? const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black38,
-                  blurRadius: 3,
-                  spreadRadius: -6,
-                  offset: Offset(0, 5),
-                )
-              ],
+          ? BoxDecoration(
+              color: widget.item.backgroundColor,
+              borderRadius: const BorderRadius.all(Radius.circular(5)),
             )
           : null,
       child: GestureDetector(
@@ -157,7 +212,9 @@ class _PinterestMenuButtonState extends State<_PinterestMenuButton>
             child: Icon(
               widget.item.icon,
               size: 25.0,
-              color: isCurentItem ? Colors.blue : Colors.blueGrey[800],
+              color: isCurentItem
+                  ? widget.item.activeColor
+                  : widget.item.inactiveColor,
             ),
           ),
         ),

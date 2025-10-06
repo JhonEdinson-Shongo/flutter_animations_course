@@ -7,7 +7,8 @@ Proyecto de practica basado en Flutter que recopila ejercicios cortos de animaci
 - Estados compartidos con `Provider` y `ChangeNotifier`.
 - Animaciones controladas con `AnimationController`, `CurvedAnimation` y `AnimatedBuilder`.
 - Widgets personalizados con `CustomPainter` y composicion de `CustomPaint`.
-- Componentes reutilizables como progreso radial y slideshow configurable.
+- Componentes reutilizables como progreso radial, slideshow configurable y menu flotante al estilo Pinterest.
+- Grillas tipo Pinterest usando `MasonryGridView` del paquete `flutter_staggered_grid_view`.
 
 ## Requisitos
 - [Flutter](https://docs.flutter.dev/get-started/install) 3.0 o superior.
@@ -130,17 +131,52 @@ class SlideShowExample extends StatelessWidget {
 ```
 Lleva al usuario a esta vista con `Navigator.pushNamed(context, 'SlideShowPage')` y experimenta con los botones para cambiar posicion y tamano de los bullets.
 
+### 5. Pinterest Grid + Menu flotante (`PinterestGridPage`)
+Replica un feed estilo Pinterest con tarjetas de alto variable y un menu flotante animado.
+
+- `PinterestGrid` usa `MasonryGridView.builder` para crear una grilla irregular basada en alturas aleatorias (`lib/src/pages/pinterest_grid_page.dart`).
+- El `PinterestMenu` muestra botones que reaccionan al scroll: se oculta al bajar y reaparece al subir (`lib/src/widgets/Pinterest_menu.dart`).
+- `PinterestModel` sincroniza el boton activo y la visibilidad con `ChangeNotifier` (`lib/src/models/pinterest_model.dart`).
+
+```dart
+class PinterestPreview extends StatelessWidget {
+  const PinterestPreview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PinterestMenu(
+      backgroundColor: Colors.white,
+      items: [
+        PinterestButton(
+          icon: Icons.home_outlined,
+          activeColor: Colors.redAccent,
+          onPressed: () {},
+        ),
+        PinterestButton(
+          icon: Icons.search,
+          activeColor: Colors.green,
+          onPressed: () {},
+        ),
+      ],
+      child: const PinterestGrid(),
+    );
+  }
+}
+```
+En la pantalla de inicio, abre esta demo con `Navigator.pushNamed(context, 'PinterestGridPage')` para probar el menu y el efecto de scroll.
+
 ## Arquitectura rapida
-- `lib/main.dart`: arma el `MaterialApp` y registra `Provider` para `SliderModel`.
+- `lib/main.dart`: arma el `MaterialApp` y registra `Provider` para `SliderModel` y `PinterestModel` (ver configuracion actual).
 - `lib/src/router/app_routes.dart`: rutas nombradas y `onGenerateRoute` de respaldo.
-- `lib/src/models/slider_model.dart`: `ChangeNotifier` que guarda la pagina actual del slideshow.
-- `lib/src/widgets/`: componentes reutilizables (headers, radial progress, slideshow).
+- `lib/src/models/`: contiene `SliderModel` y `PinterestModel` para manejar estado compartido.
+- `lib/src/widgets/`: componentes reutilizables (headers, radial progress, slideshow, menu estilo Pinterest).
 - `assets/svgs/`: graficos auxiliares para futuras practicas.
 
 ## Ideas para extender
 - Agregar mas headers con gradientes animados.
 - Crear nuevas tarjetas animadas con `ImplicitlyAnimatedWidget`.
 - Conectar el progreso radial a datos reales (descargas, timers, etc.).
-- Crear pruebas widget para validar la interaccion de slideshow y provider.
+- Crear pruebas widget para validar la interaccion de slideshow, grid y provider.
+- Disparar acciones reales desde los botones del menu Pinterest (filtros, favoritos, etc.).
 
 Listo para publicar el repositorio y seguir creciendo con nuevos ejercicios de animacion.
