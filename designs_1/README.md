@@ -6,6 +6,7 @@ Proyecto de practica basado en Flutter que recopila ejercicios cortos de animaci
 - Navegacion con rutas nombradas y `Navigator.pushNamed`.
 - Estados compartidos con `Provider` y `ChangeNotifier`.
 - Animaciones controladas con `AnimationController`, `CurvedAnimation` y `AnimatedBuilder`.
+- Animaciones de entrada con `animate_do` (por ejemplo, `FadeInLeft`).
 - Widgets personalizados con `CustomPainter` y composicion de `CustomPaint`.
 - Componentes reutilizables como progreso radial, slideshow configurable y menu flotante al estilo Pinterest.
 - Grillas tipo Pinterest usando `MasonryGridView` del paquete `flutter_staggered_grid_view`.
@@ -165,11 +166,70 @@ class PinterestPreview extends StatelessWidget {
 ```
 En la pantalla de inicio, abre esta demo con `Navigator.pushNamed(context, 'PinterestGridPage')` para probar el menu y el efecto de scroll.
 
+### 6. Layout 1 — Header + Lista de acciones (`Layout1Page`)
+Pantalla con un encabezado vistoso y una lista de botones de accion con animaciones de entrada.
+
+- `HeaderLayout1` pinta un fondo con gradiente, icono decorativo de gran tamano con `AnimatedOpacity` y `AnimatedScale`, y textos de titulo/subtitulo (`lib/src/widgets/headers.dart`).
+- `ButtonList` renderiza tarjetas con gradiente, icono difuminado de fondo y CTA con efecto de sombra (`lib/src/widgets/button_list.dart`).
+- Las filas aparecen con `FadeInLeft` del paquete `animate_do` para transiciones suaves (`lib/src/pages/layout_1_page.dart`).
+
+```dart
+// Header basico con gradiente y contenido
+const HeaderLayout1(
+  gradientColors: [AppTheme.secondary, AppTheme.primary],
+  icon: Icons.add_alarm_sharp,
+  title: 'Soy un titulo',
+  subTitle: 'Soy un subtitulo',
+);
+
+// Un item de la lista de acciones
+ButtonList(
+  icon: Icons.cast_connected_outlined,
+  title: 'Transmitir',
+  backgroundColors: const [Colors.deepPurpleAccent, Colors.deepOrange],
+  onPressed: () {
+    // Accion al tocar
+  },
+);
+
+// Agregando animacion de entrada con animate_do
+FadeInLeft(
+  duration: const Duration(milliseconds: 400),
+  from: 100,
+  child: ButtonList(
+    icon: Icons.yard_outlined,
+    title: 'Jardin',
+    backgroundColors: const [Colors.amberAccent, Colors.limeAccent],
+    onPressed: () {},
+  ),
+);
+
+// Estructura general de la pantalla (Stack + ListView)
+Scaffold(
+  body: Stack(
+    children: [
+      ListView(
+        physics: const BouncingScrollPhysics(),
+        padding: const EdgeInsets.only(top: 300),
+        children: const [ /* botones animados */ ],
+      ),
+      HeaderLayout1(
+        gradientColors: const [AppTheme.secondary, AppTheme.primary],
+        icon: Icons.add_alarm_sharp,
+        title: 'Soy un titulo',
+        subTitle: 'Soy un subtitulo',
+      ),
+    ],
+  ),
+);
+```
+Abre esta demo con `Navigator.pushNamed(context, 'Layout1Page')` y revisa el efecto del header y la entrada de los botones.
+
 ## Arquitectura rapida
 - `lib/main.dart`: arma el `MaterialApp` y registra `Provider` para `SliderModel` y `PinterestModel` (ver configuracion actual).
 - `lib/src/router/app_routes.dart`: rutas nombradas y `onGenerateRoute` de respaldo.
 - `lib/src/models/`: contiene `SliderModel` y `PinterestModel` para manejar estado compartido.
-- `lib/src/widgets/`: componentes reutilizables (headers, radial progress, slideshow, menu estilo Pinterest).
+- `lib/src/widgets/`: componentes reutilizables (headers, radial progress, slideshow, menu estilo Pinterest, botones de lista).
 - `assets/svgs/`: graficos auxiliares para futuras practicas.
 
 ## Ideas para extender
@@ -178,5 +238,6 @@ En la pantalla de inicio, abre esta demo con `Navigator.pushNamed(context, 'Pint
 - Conectar el progreso radial a datos reales (descargas, timers, etc.).
 - Crear pruebas widget para validar la interaccion de slideshow, grid y provider.
 - Disparar acciones reales desde los botones del menu Pinterest (filtros, favoritos, etc.).
+- Anadir acciones reales a `ButtonList` (navegacion a detalles, dialogs, etc.).
 
 Listo para publicar el repositorio y seguir creciendo con nuevos ejercicios de animacion.
