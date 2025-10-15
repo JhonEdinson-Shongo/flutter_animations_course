@@ -20,6 +20,8 @@ class AppRoutes {
         {'PinterestGridPage': (BuildContext context) => PinterestGridPage()});
     appRoutes.addAll(
         {'Layout1Page': (BuildContext context) => Layout1Page()});
+    appRoutes.addAll(
+        {'Layout2Page': (BuildContext context) => const Layout2Page()});
 
     return appRoutes;
   }

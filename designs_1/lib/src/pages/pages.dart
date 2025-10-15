@@ -6,3 +6,4 @@ export 'progress_bar_page.dart';
 export 'slideshow_page.dart';
 export 'pinterest_grid_page.dart';
 export 'layout_1_page.dart';
+export 'layout_2_page.dart';

@@ -93,31 +93,41 @@ class _HeaderRowDownPainter extends CustomPainter {
 }
 
 class HeaderCurvo extends StatelessWidget {
-  const HeaderCurvo({super.key});
+  final Color color;
+  final double height;
+  const HeaderCurvo({
+    super.key,
+    this.color = AppTheme.primary,
+    this.height = 300,
+  });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 350,
+      height: height,
       width: double.infinity,
       child: CustomPaint(
-        painter: _HeaderCurvoPainter(),
+        painter: _HeaderCurvoPainter(
+          color: color,
+        ),
       ),
     );
   }
 }
 
 class _HeaderCurvoPainter extends CustomPainter {
+  final Color color;
+  _HeaderCurvoPainter({this.color = AppTheme.primary});
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppTheme.primary
+      ..color = color
       ..style = PaintingStyle.fill;
 
     final path = Path()
-      ..lineTo(0, size.height * 0.5)
+      ..lineTo(0, size.height * 0.7)
       ..quadraticBezierTo(
-          size.width / 2, size.height, size.width, size.height * 0.5)
+          size.width / 2, size.height + size.height * 0.3, size.width, size.height * 0.7)
       ..lineTo(size.width, 0)
       ..close();
 

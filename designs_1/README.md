@@ -225,6 +225,93 @@ Scaffold(
 ```
 Abre esta demo con `Navigator.pushNamed(context, 'Layout1Page')` y revisa el efecto del header y la entrada de los botones.
 
+### 7. Layout 2 - CustomScrollView + Slivers (`Layout2Page`)
+Pantalla basada en `CustomScrollView` con un header persistente y una lista de items tipo tarjeta.
+
+- `SliverPersistentHeader` con un delegado personalizado que renderiza un header curvo y titulo centrado (`lib/src/pages/layout_2_page.dart`).
+- `SliverList` para generar items con sombras y bordes redondeados.
+- Boton/CTA fijo en la parte inferior usando `Stack` + `Positioned` con borde superior redondeado.
+
+```dart
+// Header persistente con SliverPersistentHeader
+oWidget buildHeader() => SliverPersistentHeader(
+  floating: true,
+  delegate: _CustomAppBar(
+    minHeight: 200,
+    maxHeight: 200,
+    child: const Stack(
+      children: [
+        HeaderCurvo(color: AppTheme.secondary, height: 200),
+        Center(
+          child: Text(
+            'Custom Scroll',
+            style: TextStyle(
+              color: AppTheme.white,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
+    ),
+  ),
+);
+
+// Delegado para el header persistente
+class _CustomAppBar extends SliverPersistentHeaderDelegate {
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+  _CustomAppBar({required this.minHeight, required this.maxHeight, required this.child});
+
+  @override
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) =>
+      SizedBox.expand(child: child);
+  @override
+  double get maxExtent => maxHeight < minHeight ? minHeight : maxHeight;
+  @override
+  double get minExtent => minHeight;
+  @override
+  bool shouldRebuild(covariant _CustomAppBar old) =>
+      maxHeight != old.maxHeight || minHeight != old.minHeight || child != old.child;
+}
+
+// Estructura general con CTA inferior fijo
+Scaffold(
+  body: Stack(
+    children: [
+      CustomScrollView(
+        slivers: [
+          buildHeader(),
+          SliverList(
+            delegate: SliverChildListDelegate([
+              ...List.generate(20, (index) => _ItemList(index)),
+              const SizedBox(height: 100),
+            ]),
+          ),
+        ],
+      ),
+      Positioned(
+        bottom: 0,
+        right: 0,
+        child: Container(
+          height: 80,
+          width: MediaQuery.of(context).size.width - 20,
+          alignment: Alignment.center,
+          decoration: const BoxDecoration(
+            color: AppTheme.secondary,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(40)),
+          ),
+          child: const Text('CREATE SOMETHING NEW',
+              style: TextStyle(color: AppTheme.white, fontSize: 20, fontWeight: FontWeight.bold, letterSpacing: 3)),
+        ),
+      ),
+    ],
+  ),
+);
+```
+Abre esta demo con `Navigator.pushNamed(context, 'Layout2Page')` para explorar el comportamiento del header y el scroll.
+
 ## Arquitectura rapida
 - `lib/main.dart`: arma el `MaterialApp` y registra `Provider` para `SliderModel` y `PinterestModel` (ver configuracion actual).
 - `lib/src/router/app_routes.dart`: rutas nombradas y `onGenerateRoute` de respaldo.
@@ -241,3 +328,4 @@ Abre esta demo con `Navigator.pushNamed(context, 'Layout1Page')` y revisa el efe
 - Anadir acciones reales a `ButtonList` (navegacion a detalles, dialogs, etc.).
 
 Listo para publicar el repositorio y seguir creciendo con nuevos ejercicios de animacion.
+
