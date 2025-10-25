@@ -5,6 +5,7 @@
 ![Provider](https://img.shields.io/badge/State%20Mgmt-Provider-7F52FF?logo=flutter&logoColor=white)
 ![animate_do](https://img.shields.io/badge/Package-animate__do-00BCD4)
 ![Staggered%20Grid](https://img.shields.io/badge/Package-flutter__staggered__grid__view-6A1B9A)
+![flutter_svg](https://img.shields.io/badge/Package-flutter__svg-0D47A1)
 ![CustomPainter](https://img.shields.io/badge/Widget-CustomPainter-455A64)
 ![Android](https://img.shields.io/badge/Platform-Android-3DDC84?logo=android&logoColor=white)
 ![iOS](https://img.shields.io/badge/Platform-iOS-000000?logo=apple&logoColor=white)
@@ -22,6 +23,25 @@ Colección de pantallas y ejercicios que exploran animaciones, `CustomPainter`, 
 - Componentes reutilizables: progreso radial, slideshow, menú estilo Pinterest, headers curvos.
 - Grillas tipo Pinterest usando `MasonryGridView` (`flutter_staggered_grid_view`).
 
+## Nuevo: Drawer de navegación y tema
+
+- Menú lateral en `HomePage` con encabezado visual (imagen de fondo + avatar).
+- Lista de navegación dinámica desde `routes_model.dart`.
+- Switches para alternar temas: `Dark Mode` y `Custom Theme` usando `Provider (ThemeApp)`.
+
+Ejemplo (extracto):
+
+```dart
+ListTile(
+  leading: const Icon(Icons.settings),
+  title: const Text('Dark Mode'),
+  trailing: Switch.adaptive(
+    value: appTheme.isDarkTheme,
+    onChanged: (v) => appTheme.isDarkTheme = v,
+  ),
+)
+```
+
 ## Requisitos
 
 - Flutter 3.0 o superior.
@@ -36,6 +56,13 @@ flutter run
 ```
 
 La app inicia en la ruta Home y muestra un menú que enlaza a cada ejercicio.
+
+## Cambios del último commit
+
+- Se añadió un Drawer en `HomePage` con header, avatar y switches de tema.
+- Nuevos assets: `assets/bold/logo.svg` y `assets/freepik_1.jpg` (usado en el header del Drawer).
+- Se ajustó el manejo de temas con `ThemeApp` (modos Claro/Oscuro/Custom).
+- Actualizaciones de estilo en varias páginas para alinear colores/estética.
 
 ## Rutas y demos principales
 
@@ -62,6 +89,7 @@ La app inicia en la ruta Home y muestra un menú que enlaza a cada ejercicio.
 - `animate_do` — animaciones de entrada
 - `flutter_staggered_grid_view` — grillas tipo Masonry
 - `CustomPainter`/`CustomPaint` — gráficos declarativos
+- `flutter_svg` — renderizado de SVGs (logos/ilustraciones)
 
 ## Ideas para extender
 
@@ -74,4 +102,3 @@ La app inicia en la ruta Home y muestra un menú que enlaza a cada ejercicio.
 ## Licencia
 
 MIT — ver archivo `LICENSE` en la raíz del repositorio.
-

@@ -1,4 +1,4 @@
-# Shongo - Portafolio de Disenos y Animaciones en Flutter
+﻿# Shongo - Portafolio de Disenos y Animaciones en Flutter
 
 ![Flutter](https://img.shields.io/badge/Flutter-3%2B-02569B?logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-2%2B-0175C2?logo=dart&logoColor=white)
@@ -40,6 +40,7 @@ Demostraciones enfocadas en patrones de UI y animaciones:
 - Slideshow configurable con indicadores, eje y posicion personalizable.
 - Grid estilo Pinterest usando `flutter_staggered_grid_view` mas menu flotante.
 - Estado compartido con `Provider`/`ChangeNotifier`.
+ - Nuevo: Drawer lateral en Home con encabezado (imagen + avatar) y switches para Dark/Custom Theme (Provider).
 
 Mas info, snippets y rutas en designs_1/README.md.
 
@@ -125,3 +126,4 @@ Sugerencia: Manten los assets dentro de cada subproyecto (`assets/`) para indepe
 ## Licencia
 
 Este repositorio se distribuye bajo licencia MIT. Ver `LICENSE` para mas detalles.
+
