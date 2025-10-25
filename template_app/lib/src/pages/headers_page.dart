@@ -8,7 +8,7 @@ class HeadersPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Headers', style: TextStyle(color: AppTheme.white)),
+        title: const Text('Headers', style: TextStyle(color: Colors.white)),
       ),
       body: const Center(
         child: Text('Headers'),

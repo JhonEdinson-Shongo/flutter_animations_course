@@ -1,6 +1,6 @@
 import 'package:designs_1/src/themes/app_theme.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 class AnimationsPage extends StatelessWidget {
   const AnimationsPage({super.key});
@@ -54,7 +54,7 @@ class _AnimatedSquareState extends State<AnimatedSquare>
     super.initState();
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3000));
-    _animationRotation = Tween<double>(begin: 0, end: 2 * Math.pi).animate(
+    _animationRotation = Tween<double>(begin: 0, end: 2 * math.pi).animate(
       CurvedAnimation(
         parent: _controller!,
         curve: Curves.easeInOut,
@@ -109,7 +109,7 @@ class _AnimatedSquareFadeState extends State<AnimatedSquareFade>
     super.initState();
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3000));
-    _animationRotation = Tween<double>(begin: 0, end: 2 * Math.pi).animate(
+    _animationRotation = Tween<double>(begin: 0, end: 2 * math.pi).animate(
       CurvedAnimation(
         parent: _controller!,
         curve: Curves.easeInOut,
@@ -179,7 +179,7 @@ class _AnimatedSquareRightState extends State<AnimatedSquareRight>
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3000));
 
-    _animationRotation = Tween<double>(begin: 0, end: 2 * Math.pi).animate(
+    _animationRotation = Tween<double>(begin: 0, end: 2 * math.pi).animate(
       CurvedAnimation(
         parent: _controller!,
         curve: Curves.easeInOut,
@@ -247,7 +247,7 @@ class _AnimatedSquareRightState extends State<AnimatedSquareRight>
                 0,
               ),
               child: const Text('Jhon',
-                  style: TextStyle(fontSize: 25, color: AppTheme.white)),
+                  style: TextStyle(fontSize: 25, color: Colors.white)),
             ),
           ],
         );
@@ -277,7 +277,7 @@ class _AnimatedSquareRightEnlargeState extends State<AnimatedSquareRightEnlarge>
     _controller = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 3000));
 
-    _animationRotation = Tween<double>(begin: 0, end: 2 * Math.pi).animate(
+    _animationRotation = Tween<double>(begin: 0, end: 2 * math.pi).animate(
       CurvedAnimation(
         parent: _controller!,
         curve: Curves.easeInOut,
@@ -357,7 +357,7 @@ class _AnimatedSquareRightEnlargeState extends State<AnimatedSquareRightEnlarge>
                   0,
                 ),
                 child: const Text('Jhon',
-                    style: TextStyle(fontSize: 25, color: AppTheme.white)),
+                    style: TextStyle(fontSize: 25, color: Colors.white)),
               ),
             ),
           ],
@@ -453,7 +453,7 @@ class _AnimatedSquareMoveState extends State<AnimatedSquareMove>
               children: [
                 Container(child: child),
                 const Text('Jhon',
-                    style: TextStyle(fontSize: 25, color: AppTheme.white)),
+                    style: TextStyle(fontSize: 25, color: Colors.white)),
               ],
             ),
           ),
@@ -466,11 +466,12 @@ class _AnimatedSquareMoveState extends State<AnimatedSquareMove>
 class _Rectangle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return Container(
       width: 80,
       height: 80,
-      decoration: const BoxDecoration(
-        color: AppTheme.secondary,
+      decoration: BoxDecoration(
+        color: theme.secondary,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
     );

@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:designs_1/src/router/app_routes.dart';
+
 import 'package:designs_1/src/models/pinterest_model.dart';
 import 'package:designs_1/src/models/slider_model.dart';
-import 'package:flutter/material.dart';
-import 'package:designs_1/src/router/app_routes.dart';
-import 'package:designs_1/src/themes/app_theme.dart';
-import 'package:provider/provider.dart';
+import 'package:designs_1/src/models/theme_model.dart';
 
 void main() {
   runApp(
@@ -11,30 +13,25 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => SliderModel()),
         ChangeNotifierProvider(create: (context) => PinterestModel()),
+        ChangeNotifierProvider(create: (context) => ThemeApp()),
       ],
       child: const MainApp(),
     ),
   );
 }
 
-class MainApp extends StatefulWidget {
+class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
   @override
-  State<MainApp> createState() => _MainAppState();
-}
-
-class _MainAppState extends State<MainApp> {
-  @override
   Widget build(BuildContext context) {
-    final navKey = GlobalKey<NavigatorState>();
+    final currentTheme = Provider.of<ThemeApp>(context).currentTheme;
     return MaterialApp(
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.getAppRoutes(),
-      navigatorKey: navKey,
       debugShowCheckedModeBanner: false,
       title: 'Diseños flutter',
-      theme: AppTheme.themeLight,
+      theme: currentTheme,
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(context)

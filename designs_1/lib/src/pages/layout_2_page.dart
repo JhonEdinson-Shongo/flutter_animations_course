@@ -8,6 +8,7 @@ class Layout2Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return Scaffold(
       body: Container(
         height: double.infinity,
@@ -25,16 +26,16 @@ class Layout2Page extends StatelessWidget {
                   height: 80,
                   width: MediaQuery.of(context).size.width - 20,
                   alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: AppTheme.secondary,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: theme.secondary,
+                    borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(40),
                     ),
                   ),
-                  child: const Text(
+                  child: Text(
                     'CREATE SOMETHING NEW',
                     style: TextStyle(
-                      color: AppTheme.white,
+                      color: theme.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 3,
@@ -53,6 +54,7 @@ class Layout2Page extends StatelessWidget {
 class _MainScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return CustomScrollView(
       slivers: [
         // Es un appbar qeu se puede quedar tipo fixed o floating en el scroll
@@ -67,17 +69,17 @@ class _MainScroll extends StatelessWidget {
           delegate: _CustomAppBar(
             minHeight: 200,
             maxHeight: 200,
-            child: const Stack(
+            child: Stack(
               children: [
                 HeaderCurvo(
-                  color: AppTheme.secondary,
+                  color: theme.secondary,
                   height: 200,
                 ),
                 Center(
                   child: Text(
                     'Custom Scroll',
                     style: TextStyle(
-                      color: AppTheme.white,
+                      color: theme.white,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),

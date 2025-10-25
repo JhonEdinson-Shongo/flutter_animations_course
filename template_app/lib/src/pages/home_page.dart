@@ -10,7 +10,7 @@ class HomePage
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page', style: TextStyle(color: AppTheme.white)),
+        title: const Text('Home Page', style: TextStyle(color: Colors.white)),
       ),
       body: SingleChildScrollView(
         child: Column(

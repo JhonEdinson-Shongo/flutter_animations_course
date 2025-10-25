@@ -8,14 +8,15 @@ class HeaderRounded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return Container(
       height: 300,
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(70),
           bottomRight: Radius.circular(70),
         ),
-        color: AppTheme.primary,
+        color: theme.primary,
       ),
     );
   }
@@ -39,8 +40,9 @@ class HeaderDiagonal extends StatelessWidget {
 class _HeaderDiagonalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final theme = AppTheme();
     final paint = Paint()
-      ..color = AppTheme.primary
+      ..color = theme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -72,10 +74,11 @@ class HeaderRowDown extends StatelessWidget {
 }
 
 class _HeaderRowDownPainter extends CustomPainter {
+  final theme = AppTheme();
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = AppTheme.primary
+      ..color = theme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -97,7 +100,7 @@ class HeaderCurvo extends StatelessWidget {
   final double height;
   const HeaderCurvo({
     super.key,
-    this.color = AppTheme.primary,
+    this.color = Colors.indigo,
     this.height = 300,
   });
 
@@ -117,7 +120,7 @@ class HeaderCurvo extends StatelessWidget {
 
 class _HeaderCurvoPainter extends CustomPainter {
   final Color color;
-  _HeaderCurvoPainter({this.color = AppTheme.primary});
+  _HeaderCurvoPainter({this.color = Colors.indigo});
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -156,8 +159,9 @@ class HeaderWave extends StatelessWidget {
 class _HeaderWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final theme = AppTheme();
     final paint = Paint()
-      ..color = AppTheme.primary
+      ..color = theme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -194,6 +198,7 @@ class HeaderWaveGradient extends StatelessWidget {
 class _HeaderWaveGradientPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final theme = AppTheme();
     final Rect rect = Rect.fromCircle(
         center: Offset(size.width / 2, size.height / 2), radius: 150.0);
 
@@ -201,9 +206,9 @@ class _HeaderWaveGradientPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        AppTheme.primary,
-        AppTheme.primary.withOpacity(0.75),
-        AppTheme.primary.withOpacity(0.2),
+        theme.primary,
+        theme.primary.withOpacity(0.75),
+        theme.primary.withOpacity(0.2),
       ],
       stops: const [0.0, 0.5, 1.0],
     );

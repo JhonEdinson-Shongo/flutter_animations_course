@@ -1,4 +1,3 @@
-import 'package:designs_1/src/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class ButtonList extends StatelessWidget {
@@ -14,7 +13,7 @@ class ButtonList extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.onPressed,
-    this.backgroundColors = const [AppTheme.primary],
+    this.backgroundColors = const [Colors.indigo],
     this.textColor = Colors.white,
     this.margin = const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
   });

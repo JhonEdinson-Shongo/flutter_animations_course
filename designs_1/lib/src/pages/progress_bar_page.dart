@@ -15,6 +15,7 @@ class _CustomProgressPageState extends State<CustomProgressPage>
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Progress Bar'),
@@ -45,7 +46,7 @@ class _CustomProgressPageState extends State<CustomProgressPage>
                       stroke: 7.0,
                       secondStroke: 3.0,
                       animationDuration: 1000,
-                      colorProgress: AppTheme.primary,
+                      colorProgress: theme.primary,
                       colorBackground: Colors.grey,
                       curve: Curves.easeInOutQuart,
                     ),
@@ -58,7 +59,7 @@ class _CustomProgressPageState extends State<CustomProgressPage>
                       stroke: 7.0,
                       secondStroke: 3.0,
                       animationDuration: 1000,
-                      colorProgress: AppTheme.secondary,
+                      colorProgress: theme.secondary,
                       colorBackground: Colors.grey,
                       curve: Curves.easeInOutQuart,
                     ),

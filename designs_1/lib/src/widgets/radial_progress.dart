@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:designs_1/src/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class RadialProgress extends StatefulWidget {
@@ -15,7 +14,7 @@ class RadialProgress extends StatefulWidget {
     super.key,
     required this.progress,
     this.stroke = 10.0,
-    this.colorProgress = AppTheme.primary,
+    this.colorProgress = Colors.indigo,
     this.colorBackground = Colors.grey,
     this.curve = Curves.linear,
     this.secondStroke = 0.0,

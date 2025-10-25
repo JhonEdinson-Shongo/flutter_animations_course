@@ -17,32 +17,34 @@ class _SlideShowPageState extends State<SlideShowPage> {
   Axis directionSlides = Axis.horizontal;
 
   ButtonStyle _buttonStyle(DotPosition dotPositionButton) {
+    final theme = AppTheme();
     return TextButton.styleFrom(
       foregroundColor:
-          dotPosition == dotPositionButton ? AppTheme.primary : Colors.black,
+          dotPosition == dotPositionButton ? theme.primary : Colors.black,
       backgroundColor: dotPosition == dotPositionButton
-          ? AppTheme.primary.withOpacity(0.1)
+          ? theme.primary.withOpacity(0.1)
           : Colors.transparent,
       shape: const StadiumBorder(),
       side: BorderSide(
         color:
-            dotPosition == dotPositionButton ? AppTheme.primary : Colors.black,
+            dotPosition == dotPositionButton ? theme.primary : Colors.black,
         width: 1.0,
       ),
     );
   }
 
   ButtonStyle _buttonStyleDirection(Axis direction) {
+    final theme = AppTheme();
     return TextButton.styleFrom(
       foregroundColor:
-          directionSlides == direction ? AppTheme.primary : Colors.black,
+          directionSlides == direction ? theme.primary : Colors.black,
       backgroundColor: directionSlides == direction
-          ? AppTheme.primary.withOpacity(0.1)
+          ? theme.primary.withOpacity(0.1)
           : Colors.transparent,
       shape: const StadiumBorder(),
       side: BorderSide(
         color:
-            directionSlides == direction ? AppTheme.primary : Colors.black,
+            directionSlides == direction ? theme.primary : Colors.black,
         width: 1.0,
       ),
     );
@@ -56,6 +58,7 @@ class _SlideShowPageState extends State<SlideShowPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = AppTheme();
     return Scaffold(
       appBar: AppBar(
         title: const Text('SlideShow Page'),
@@ -81,7 +84,7 @@ class _SlideShowPageState extends State<SlideShowPage> {
                 ],
                 positionDots: dotPosition,
                 bulletSize: bulletSize,
-                bulletColorActive: AppTheme.primary,
+                bulletColorActive: theme.primary,
                 bulletColorInactive: Colors.black54,
                 directionSlides: directionSlides,
               ),
@@ -126,9 +129,9 @@ class _SlideShowPageState extends State<SlideShowPage> {
                 children: [
                   TextSpan(
                     text: '${bulletSize.toInt()}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.primary,
+                      color: theme.primary,
                     ),
                   ),
                 ],
