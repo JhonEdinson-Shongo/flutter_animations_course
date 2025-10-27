@@ -6,14 +6,18 @@ import 'package:designs_1/src/router/app_routes.dart';
 
 import 'package:designs_1/src/models/pinterest_model.dart';
 import 'package:designs_1/src/models/slider_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? localThemeSave = prefs.getString('theme') ?? 'light';
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SliderModel()),
         ChangeNotifierProvider(create: (context) => PinterestModel()),
-        ChangeNotifierProvider(create: (context) => AppTheme()),
+        ChangeNotifierProvider(create: (context) => AppTheme(localThemeSave)),
       ],
       child: const MainApp(),
     ),

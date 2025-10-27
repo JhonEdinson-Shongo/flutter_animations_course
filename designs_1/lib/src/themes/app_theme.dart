@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+enum AppThemeMode { light, dark, custom }
 
 class AppTheme with ChangeNotifier {
   static const Color primary = Colors.indigo;
@@ -16,8 +19,23 @@ class AppTheme with ChangeNotifier {
   double get fontSizeFactor => _fontSizeFactor;
   ThemeData get currentTheme => _currentTheme;
 
-  AppTheme() {
-    _currentTheme = _themeLight;
+  AppTheme(String theme) {
+    switch (theme) {
+      case 'dark':
+        isDarkTheme = true;
+        break;
+      case 'custom':
+        isCustomTheme = true;
+        break;
+      default:
+        isDarkTheme = false;
+        isCustomTheme = false;
+    }
+  }
+
+  saveLocalTheme(String theme) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme', theme);
   }
 
   set isDarkTheme(bool value) {
@@ -25,8 +43,10 @@ class AppTheme with ChangeNotifier {
     _isCustomTheme = false;
     if (value) {
       _currentTheme = _themeDark;
+      saveLocalTheme('dark');
     } else {
       _currentTheme = _themeLight;
+      saveLocalTheme('light');
     }
     notifyListeners();
   }
@@ -36,10 +56,13 @@ class AppTheme with ChangeNotifier {
     _isCustomTheme = value;
     if (value) {
       _currentTheme = _themeCustom;
+      saveLocalTheme('custom');
     } else if (_isDarkTheme) {
       _currentTheme = _themeDark;
+      saveLocalTheme('dark');
     } else {
       _currentTheme = _themeLight;
+      saveLocalTheme('light');
     }
     notifyListeners();
   }
