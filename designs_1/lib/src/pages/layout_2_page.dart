@@ -1,5 +1,6 @@
 import 'package:designs_1/src/themes/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/headers.dart';
 
@@ -8,12 +9,10 @@ class Layout2Page extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme();
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.indigo[50],
         child: Stack(
           children: [
             _MainScroll(),
@@ -26,16 +25,16 @@ class Layout2Page extends StatelessWidget {
                   height: 80,
                   width: MediaQuery.of(context).size.width - 20,
                   alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: theme.secondary,
-                    borderRadius: const BorderRadius.only(
+                  decoration: const BoxDecoration(
+                    color: AppTheme.secondary,
+                    borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(40),
                     ),
                   ),
-                  child: Text(
+                  child: const Text(
                     'CREATE SOMETHING NEW',
                     style: TextStyle(
-                      color: theme.white,
+                      color: AppTheme.white,
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       letterSpacing: 3,
@@ -54,10 +53,9 @@ class Layout2Page extends StatelessWidget {
 class _MainScroll extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme();
     return CustomScrollView(
       slivers: [
-        // Es un appbar qeu se puede quedar tipo fixed o floating en el scroll
+        // Es un appbar que se puede quedar tipo fixed o floating en el scroll
         // const SliverAppBar(
         //   floating: true,
         //   backgroundColor: AppTheme.primary,
@@ -69,17 +67,17 @@ class _MainScroll extends StatelessWidget {
           delegate: _CustomAppBar(
             minHeight: 200,
             maxHeight: 200,
-            child: Stack(
+            child: const Stack(
               children: [
                 HeaderCurvo(
-                  color: theme.secondary,
+                  color: AppTheme.secondary,
                   height: 200,
                 ),
                 Center(
                   child: Text(
                     'Custom Scroll',
                     style: TextStyle(
-                      color: theme.white,
+                      color: AppTheme.white,
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
@@ -154,8 +152,9 @@ class _ItemList extends StatelessWidget {
       ),
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.grey[200],
         borderRadius: BorderRadius.circular(25),
+        border: Border.all(color: Colors.white),
         boxShadow: const [
           BoxShadow(
             color: Colors.black38,
@@ -169,6 +168,7 @@ class _ItemList extends StatelessWidget {
         'Item $index',
         style: const TextStyle(
           fontSize: 20,
+          color: Colors.black87,
           fontWeight: FontWeight.w500,
         ),
       ),

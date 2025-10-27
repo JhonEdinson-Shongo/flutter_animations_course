@@ -1,6 +1,5 @@
 import 'package:designs_1/src/models/routes_model.dart';
 import 'package:designs_1/src/themes/app_theme.dart';
-import 'package:designs_1/src/models/theme_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +20,15 @@ class HomePage extends StatelessWidget {
 class _MenuPrincipal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTheme = Provider.of<ThemeApp>(context);
-    final theme = AppTheme();
+    final appTheme = Provider.of<AppTheme>(context);
     return Drawer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           DrawerHeader(
-            decoration: BoxDecoration(
-              color: theme.primary,
-              image: const DecorationImage(
+            decoration: const BoxDecoration(
+              color: AppTheme.primary,
+              image: DecorationImage(
                 image: AssetImage('assets/freepik_1.jpg'),
                 fit: BoxFit.fitHeight,
               ),
@@ -39,13 +37,13 @@ class _MenuPrincipal extends StatelessWidget {
               children: [
                 Container(
                   alignment: Alignment.topCenter,
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     backgroundColor: Colors.white,
                     radius: 40,
                     child: Icon(
                       Icons.person,
                       size: 50,
-                      color: theme.primary,
+                      color: AppTheme.primary,
                     ),
                   ),
                 ),

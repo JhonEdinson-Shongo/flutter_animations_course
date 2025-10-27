@@ -466,12 +466,11 @@ class _AnimatedSquareMoveState extends State<AnimatedSquareMove>
 class _Rectangle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme();
     return Container(
       width: 80,
       height: 80,
-      decoration: BoxDecoration(
-        color: theme.secondary,
+      decoration: const BoxDecoration(
+        color: AppTheme.secondary,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
     );

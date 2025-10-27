@@ -1,77 +1,107 @@
 import 'package:flutter/material.dart';
 
-class AppTheme {
-  final Color _primary = Colors.indigo;
-  final Color _secondary = Colors.indigoAccent;
-  final Color _white = Colors.white;
-  final Color _black = Colors.black;
-  final Color _colorText = Colors.black87;
-  final Color _colorTextSecondary = Colors.black87;
-  final Color _colorTextSecondary2 = Colors.black87;
-  final double _fontSizeFactor = 1;
+class AppTheme with ChangeNotifier {
+  static const Color primary = Colors.indigo;
+  static const Color secondary = Colors.indigoAccent;
+  static const Color white = Colors.white;
+  static const Color black = Colors.black;
 
-  Color get primary => _primary;
-  Color get secondary => _secondary;
-  Color get white => _white;
-  Color get black => _black;
-  Color get colorText => _colorText;
-  Color get colorTextSecondary => _colorTextSecondary;
-  Color get colorTextSecondary2 => _colorTextSecondary2;
+  bool _isDarkTheme = false;
+  bool _isCustomTheme = false;
+  late ThemeData _currentTheme;
+  final double _fontSizeFactor = 1.0;
+
+  bool get isDarkTheme => _isDarkTheme;
+  bool get isCustomTheme => _isCustomTheme;
   double get fontSizeFactor => _fontSizeFactor;
+  ThemeData get currentTheme => _currentTheme;
 
-  ThemeData get themeDark => ThemeData.dark().copyWith(
-        primaryColor: primary,
-        appBarTheme: const AppBarTheme(
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.white),
-          titleTextStyle: TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.apply(
-            bodyColor: colorText,
-            fontFamily: 'Poppins',
-            fontSizeFactor: fontSizeFactor),
-        scaffoldBackgroundColor: Colors.black,
-      );
+  AppTheme() {
+    _currentTheme = _themeLight;
+  }
 
-  ThemeData get themeLight => ThemeData.light().copyWith(
-        primaryColor: primary,
-        appBarTheme: AppBarTheme(
-          color: primary,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.white),
-          titleTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        textTheme: ThemeData().textTheme.apply(
-            bodyColor: colorText,
-            fontFamily: 'Poppins',
-            fontSizeFactor: fontSizeFactor),
-        scaffoldBackgroundColor: Colors.white,
-      );
+  set isDarkTheme(bool value) {
+    _isDarkTheme = value;
+    _isCustomTheme = false;
+    if (value) {
+      _currentTheme = _themeDark;
+    } else {
+      _currentTheme = _themeLight;
+    }
+    notifyListeners();
+  }
 
-  ThemeData get themeCustom => ThemeData.light().copyWith(
-        primaryColor: primary,
-        appBarTheme: AppBarTheme(
-          color: primary,
-          elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.white),
-          titleTextStyle: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
+  set isCustomTheme(bool value) {
+    _isDarkTheme = false;
+    _isCustomTheme = value;
+    if (value) {
+      _currentTheme = _themeCustom;
+    } else if (_isDarkTheme) {
+      _currentTheme = _themeDark;
+    } else {
+      _currentTheme = _themeLight;
+    }
+    notifyListeners();
+  }
+
+  set currentTheme(ThemeData value) {
+    _currentTheme = value;
+    notifyListeners();
+  }
+
+  final ThemeData _themeDark = ThemeData.dark().copyWith(
+    primaryColor: primary,
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      color: primary,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    textTheme: ThemeData().textTheme.apply(
+          bodyColor: Colors.grey[300],
+          fontFamily: 'Poppins',
         ),
-        textTheme: ThemeData().textTheme.apply(
-            bodyColor: colorText,
-            fontFamily: 'Poppins',
-            fontSizeFactor: fontSizeFactor),
-        scaffoldBackgroundColor: Colors.white,
-      );
+  );
+
+  final ThemeData _themeLight = ThemeData.light().copyWith(
+    primaryColor: primary,
+    appBarTheme: const AppBarTheme(
+      color: primary,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.white),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    textTheme: ThemeData().textTheme.apply(
+          bodyColor: Colors.black,
+          fontFamily: 'Poppins',
+        ),
+    scaffoldBackgroundColor: Colors.white,
+  );
+
+  final ThemeData _themeCustom = ThemeData.light().copyWith(
+    primaryColor: Colors.amber,
+    appBarTheme: const AppBarTheme(
+      color: Colors.orange,
+      elevation: 0,
+      iconTheme: IconThemeData(color: Colors.black),
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+    ),
+    textTheme: ThemeData().textTheme.apply(
+          bodyColor: Colors.black,
+          fontFamily: 'Poppins',
+        ),
+    scaffoldBackgroundColor: Colors.grey[100],
+  );
 }

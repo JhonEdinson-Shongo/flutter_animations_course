@@ -8,15 +8,14 @@ class HeaderRounded extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = AppTheme();
     return Container(
       height: 300,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(70),
           bottomRight: Radius.circular(70),
         ),
-        color: theme.primary,
+        color: AppTheme.primary,
       ),
     );
   }
@@ -40,9 +39,8 @@ class HeaderDiagonal extends StatelessWidget {
 class _HeaderDiagonalPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final theme = AppTheme();
     final paint = Paint()
-      ..color = theme.primary
+      ..color = AppTheme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -74,11 +72,10 @@ class HeaderRowDown extends StatelessWidget {
 }
 
 class _HeaderRowDownPainter extends CustomPainter {
-  final theme = AppTheme();
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = theme.primary
+      ..color = AppTheme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -159,9 +156,8 @@ class HeaderWave extends StatelessWidget {
 class _HeaderWavePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final theme = AppTheme();
     final paint = Paint()
-      ..color = theme.primary
+      ..color = AppTheme.primary
       ..style = PaintingStyle.fill;
 
     final path = Path()
@@ -198,7 +194,6 @@ class HeaderWaveGradient extends StatelessWidget {
 class _HeaderWaveGradientPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final theme = AppTheme();
     final Rect rect = Rect.fromCircle(
         center: Offset(size.width / 2, size.height / 2), radius: 150.0);
 
@@ -206,9 +201,9 @@ class _HeaderWaveGradientPainter extends CustomPainter {
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: [
-        theme.primary,
-        theme.primary.withOpacity(0.75),
-        theme.primary.withOpacity(0.2),
+        AppTheme.primary,
+        AppTheme.primary.withOpacity(0.75),
+        AppTheme.primary.withOpacity(0.2),
       ],
       stops: const [0.0, 0.5, 1.0],
     );

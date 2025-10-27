@@ -109,7 +109,6 @@ class _PinterestGridState extends State<PinterestGrid> {
               child: Text(
                 'Card #$index',
                 style: const TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.w700,
                 ),
               ),
