@@ -55,7 +55,7 @@ class PinterestGrid extends StatefulWidget {
 }
 
 class _PinterestGridState extends State<PinterestGrid> {
-  final List<int> items = List.generate(30, (index) => index);
+  final List<int> items = List.generate(60, (index) => index);
   final ScrollController _scrollController = ScrollController();
   double _lastScrollOffset = 0;
 
@@ -86,12 +86,19 @@ class _PinterestGridState extends State<PinterestGrid> {
       final r = Random(index);
       return 200 + r.nextInt(120).toDouble();
     }
+    final bool isLarge;
+    if (MediaQuery.of(context).size.width > 500 &&
+        MediaQuery.of(context).size.height > 500) {
+      isLarge = true;
+    } else {
+      isLarge = false;
+    }
 
     return MasonryGridView.builder(
       controller: _scrollController,
       padding: const EdgeInsets.all(12),
-      gridDelegate: const SliverSimpleGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
+      gridDelegate: SliverSimpleGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: isLarge ? 4 : 2,
       ),
       mainAxisSpacing: 12,
       crossAxisSpacing: 12,

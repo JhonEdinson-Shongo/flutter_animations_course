@@ -12,26 +12,28 @@ class AnimationsPage extends StatelessWidget {
         title: const Text('Animations'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const AnimatedSquare(),
-            const SizedBox(height: 20),
-            const AnimatedSquareFade(),
-            const SizedBox(height: 20),
-            Container(
-              width: double.infinity,
-              alignment: Alignment.centerLeft,
-              child: const AnimatedSquareRight(),
-            ),
-            const SizedBox(height: 20),
-            const AnimatedSquareRightEnlarge(),
-            const SizedBox(height: 20),
-            const AnimatedSquareMove(),
-            const SizedBox(height: 20),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const AnimatedSquare(),
+              const SizedBox(height: 20),
+              const AnimatedSquareFade(),
+              const SizedBox(height: 20),
+              Container(
+                width: double.infinity,
+                alignment: Alignment.centerLeft,
+                child: const AnimatedSquareRight(),
+              ),
+              const SizedBox(height: 20),
+              const AnimatedSquareRightEnlarge(),
+              const SizedBox(height: 20),
+              const AnimatedSquareMove(),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

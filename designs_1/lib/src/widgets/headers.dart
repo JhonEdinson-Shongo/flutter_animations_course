@@ -126,8 +126,8 @@ class _HeaderCurvoPainter extends CustomPainter {
 
     final path = Path()
       ..lineTo(0, size.height * 0.7)
-      ..quadraticBezierTo(
-          size.width / 2, size.height + size.height * 0.3, size.width, size.height * 0.7)
+      ..quadraticBezierTo(size.width / 2, size.height + size.height * 0.3,
+          size.width, size.height * 0.7)
       ..lineTo(size.width, 0)
       ..close();
 
@@ -236,7 +236,7 @@ class HeaderLayout1 extends StatefulWidget {
 
   const HeaderLayout1({
     super.key,
-    required this.title,
+    this.title = '',
     required this.subTitle,
     required this.icon,
     required this.gradientColors,
@@ -265,15 +265,19 @@ class _HeaderLayout1State extends State<HeaderLayout1> {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      clipBehavior: Clip.hardEdge,
+      fit: StackFit.loose,
       children: [
-        _BackgroundHeader(gradientColors: widget.gradientColors),
+        _BackgroundHeader(
+          gradientColors: widget.gradientColors,
+          child: _ContentHeader(widget: widget),
+        ),
         Positioned(
           top: -MediaQuery.of(context).size.width * 0.25,
           left: -MediaQuery.of(context).size.width * 0.25,
           child: _IconBackgroundHeader(
               opacityIcon: opacityIcon, scaleIcon: scaleIcon, widget: widget),
         ),
-        _ContentHeader(widget: widget),
         Positioned(
           top: 40,
           right: 0,
@@ -306,29 +310,36 @@ class _ContentHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      bottom: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 30, width: double.infinity),
-          Text(
-            widget.subTitle,
-            style: const TextStyle(
-              fontSize: 16,
-              color: Colors.white,
+          if (widget.subTitle != '')
+            Text(
+              widget.subTitle,
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            widget.title,
-            style: const TextStyle(
-                fontSize: 25, color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
+          if (widget.subTitle != '') const SizedBox(height: 20),
+          if (widget.title != '')
+            Text(
+              widget.title,
+              style: const TextStyle(
+                  fontSize: 25,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold),
+            ),
+          if (widget.title != '') const SizedBox(height: 20),
           Icon(
             widget.icon,
             color: Colors.white,
             size: 90,
           ),
+          const SizedBox(height: 20),
         ],
       ),
     );
@@ -367,14 +378,19 @@ class _IconBackgroundHeader extends StatelessWidget {
 
 class _BackgroundHeader extends StatelessWidget {
   final List<Color> gradientColors;
+  final Widget child;
 
-  const _BackgroundHeader({required this.gradientColors});
+  const _BackgroundHeader(
+      {required this.gradientColors, this.child = const Text('')});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      constraints: BoxConstraints(
+        minHeight: MediaQuery.of(context).size.height * 0.33,
+      ),
+      clipBehavior: Clip.hardEdge,
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.33,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(100),
@@ -388,6 +404,7 @@ class _BackgroundHeader extends StatelessWidget {
               )
             : null,
       ),
+      child: child,
     );
   }
 }

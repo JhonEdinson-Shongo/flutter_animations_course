@@ -11,7 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? localThemeSave = prefs.getString('theme') ?? 'light';
+  String localThemeSave = prefs.getString('theme') ?? 'light';
   runApp(
     MultiProvider(
       providers: [
